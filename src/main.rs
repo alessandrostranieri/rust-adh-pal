@@ -1,6 +1,7 @@
 extern crate clap;
 
 use clap::{arg, App, AppSettings};
+use cmd::list_all;
 
 mod cmd;
 
@@ -27,7 +28,7 @@ fn main() {
         .subcommand(
             App::new("list")
                 .about("List all completed activities")
-                .arg(arg!(<NUM> "Number of activities")),
+                .arg(arg!([NUM] "Number of activities").validator(cmd::validate_num_activities)),
         )
         .subcommand(
             App::new("mood")
@@ -38,10 +39,26 @@ fn main() {
         .get_matches();
 
     match matches.subcommand() {
-        Some(("start", _)) => cmd::start(),
+        Some(("start", arguments)) => {
+            let activity = arguments.value_of("ACTIVITY").expect("failed to extract activity");
+            cmd::start(activity)
+        },
         Some(("stop", _)) => cmd::stop(),
-        Some(("current", _)) => cmd::current(),
-        Some(("list", _)) => cmd::list(),
+        Some(("current", arguments)) => {
+            if arguments.is_present("clear") {
+                cmd::clear_current()
+            } else {
+                cmd::current()
+            }
+        },
+        Some(("list", arguments)) => {
+            match arguments.value_of("NUM") {
+                Some(num) => {
+                    cmd::list_last(num.parse().unwrap())
+                },
+                None => cmd::list_all()
+            }
+        },
         Some(("mood", _)) => cmd::mood(),
         _ => {} // TODO print help
     }

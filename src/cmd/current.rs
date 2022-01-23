@@ -1,3 +1,7 @@
 pub fn current() {
-    println!("Display current activity");
+    println!("Display the current activity");
+}
+
+pub fn clear_current() {
+    println!("Clear the current activity");
 }

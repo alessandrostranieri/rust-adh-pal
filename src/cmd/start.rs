@@ -1,3 +1,3 @@
-pub fn start() {
-    println!("Start an activity")
+pub fn start(activity: &str) {
+    println!("Start activity: {}", activity)
 }
