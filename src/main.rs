@@ -1,7 +1,6 @@
 extern crate clap;
 
 use clap::{arg, App, AppSettings};
-use cmd::list_all;
 
 mod cmd;
 
