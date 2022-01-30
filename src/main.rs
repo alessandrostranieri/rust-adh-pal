@@ -1,18 +1,19 @@
+#[macro_use]
 extern crate diesel;
-extern crate adh_pal;
 extern crate clap;
 
-use adh_pal::*;
-use adh_pal::models::*;
+mod cmd;
+mod db;
 
-use self::diesel::prelude::*;
 use clap::{arg, App, AppSettings};
+
+use db::schema::mood::dsl::*;
+use db::models::*;
+use self::diesel::prelude::*;
 
 fn main() {
 
-    use adh_pal::schema::mood::dsl::*;
-
-    let connection = establish_connection();
+    let connection = db::establish_connection();
     let results = mood
         .load::<Mood>(&connection)
         .expect("Error loading posts");
