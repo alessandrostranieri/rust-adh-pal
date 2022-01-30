@@ -13,7 +13,9 @@ use self::diesel::prelude::*;
 
 fn main() {
 
-    let connection = db::establish_connection();
+    let connection = db::establish_connection()
+    .unwrap_or_else(|_| panic!("Error connecting to DB"));
+
     let results = mood
         .load::<Mood>(&connection)
         .expect("Error loading posts");
