@@ -1,10 +1,27 @@
+extern crate diesel;
+extern crate adh_pal;
 extern crate clap;
 
+use adh_pal::*;
+use adh_pal::models::*;
+
+use self::diesel::prelude::*;
 use clap::{arg, App, AppSettings};
 
-mod cmd;
-
 fn main() {
+
+    use adh_pal::schema::mood::dsl::*;
+
+    let connection = establish_connection();
+    let results = mood
+        .load::<Mood>(&connection)
+        .expect("Error loading posts");
+
+    println!("Displaying {} mood", results.len());
+    for m in results {
+        println!("{} | {}", m.value, m.name);
+    }
+
     let matches = App::new("adh-pal")
         .version("0.1.0")
         .author("Alessandro Stranieri <alessandro.stranieri@gmail.com>")
