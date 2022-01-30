@@ -13,11 +13,11 @@ use self::diesel::prelude::*;
 
 fn main() {
 
-    let connection = db::establish_connection()
+    let dbc = db::establish_connection()
     .unwrap_or_else(|_| panic!("Error connecting to DB"));
 
     let results = mood
-        .load::<Mood>(&connection)
+        .load::<Mood>(&dbc.conn)
         .expect("Error loading posts");
 
     println!("Displaying {} mood", results.len());
