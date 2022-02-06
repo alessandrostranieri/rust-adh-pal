@@ -1,7 +1,7 @@
 table! {
-    mood (id) {
-        id -> Int4,
-        value -> Int4,
-        name -> Varchar,
+    moods (id) {
+        id -> Integer,
+        value -> Integer,
+        name -> Text,
     }
 }
